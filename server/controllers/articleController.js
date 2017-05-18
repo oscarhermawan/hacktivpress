@@ -2,20 +2,24 @@ var ObjectId = require('mongodb').ObjectId
 var db = require('../models/article')
 const methods = {}
 
-//GET ALL ARTICLE
-methods.getAllArticles = function(req, res) {
-  db.find(function(err, record) {
-    if(err){
-      res.send(err);
+
+methods.getAllArticles =function(req,res){
+  db.find({})
+  .populate('author', 'username name')
+  .exec((error, records)=>{
+    if(error){
+      res.send(error)
     } else {
-      res.send(record)
+      res.send(records)
     }
   })
-}//GET ALL ARTICLE
+}//GET ALL
 
 //GET ONE BY ID
 methods.getById = function(req,res){
-  db.findById(req.params.id, function(error, record){
+  db.findOne({_id:req.params.id})
+  .populate('author', 'username name')
+  .exec((error, record)=>{
     if(error){
       res.send(error)
     } else {
@@ -24,35 +28,31 @@ methods.getById = function(req,res){
   })
 }//GET ONE BY ID
 
+//SEARCH
+methods.getByCategory = function(req,res){
+  db.find({category:req.params.category})
+  .populate('author', 'username name')
+  .exec((error, record)=>{
+    if(error){
+      res.send(error)
+    } else {
+      res.send(record)
+    }
+  })
+}//SEARCH
+
+
 //INSERT ARTICLE
 methods.insertArticle = function(req, res){
   console.log(req.body);
-  var articleInput = new db({
-    author:req.body.author,
-    title:req.body.title,
-    content:req.body.content,
-    category:req.body.category
-  })
-  articleInput.save(function(err,result){
-    if(err){
-      res.send(err)
+  db.create(req.body, function(error, record){
+    if(error){
+      res.send(error)
     } else {
-      res.send(result)
+      res.send(record)
     }
   })
 }//INSERT ARTICLE
-
-// //INSERT ARTICLE
-// methods.insertArticle = function(req, res){
-//   console.log(req.body);
-//   db.create(req.body, function(error, record){
-//     if(error){
-//       res.send(error)
-//     } else {
-//       res.send(record)
-//     }
-//   })
-// }//INSERT ARTICLE
 
 //UPDATE ARTICLE
 methods.updateArticle = function(req,res) {
