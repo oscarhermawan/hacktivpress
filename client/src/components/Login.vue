@@ -13,17 +13,39 @@
     </br>
     <b-form-input v-model="password" type="password" placeholder="Enter your password"></b-form-input>
     </br>
-    <b-button variant="primary">
+    <b-button variant="primary" @click="onLogin">
           Login
     </b-button>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default{
   data() {
     return {
       text: ''
+    }
+  },
+  methods:{
+    onLogin:function(){
+      axios.post('http://localhost:3000/users/signin',{
+        username:this.username,
+        password:this.password
+      })
+      .then((result)=>{
+        if(result.data.token == null){
+          console.log(result.data.message);
+        }
+        else {
+          console.log(result.data);
+          localStorage.setItem('token', result.data.token)
+          window.location.href = "/"
+        }
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
     }
   }
 }

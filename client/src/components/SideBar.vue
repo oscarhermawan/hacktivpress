@@ -1,6 +1,7 @@
 <template>
-  <div>
-
+  <div id="sidebarleft">
+    <b-jumbotron header="BootstrapVue"             
+    </b-jumbotron>
   </div>
 </template>
 
@@ -15,6 +16,9 @@ export default{
 </script>
 
 <style scoped>
+#sidebarleft{
+  width:30%;
+}
 
 
 </style>

@@ -15,17 +15,32 @@
     </br>
     <b-form-input v-model="name" type="text" placeholder="Enter your Name"></b-form-input>
     </br>
-    <b-button variant="primary">
+    <b-button variant="primary" @click="register">
           Sign Up
     </b-button>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default{
   data() {
     return {
-      text: ''
+      username:'',
+      password:'',
+      name:''
+    }
+  },
+  methods:{
+    register:function(){
+      console.log('masuk');
+      axios.post('http://localhost:3000/users',{username:this.username,password:this.password, name:this.name})
+      .then((result)=>{
+        window.location.href = "/login"
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
     }
   }
 }

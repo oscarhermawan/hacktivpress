@@ -1,6 +1,6 @@
 <template>
   <div>
-      <b-navbar toggleable type="inverse" variant="success">
+      <b-navbar toggleable type="inverse" variant="primary">
 
 
       <b-link class="navbar-brand" to="#">
@@ -8,7 +8,11 @@
       </b-link>
 
       <b-nav is-nav-bar>
-        <b-nav-item>Log Out</b-nav-item>
+        <b-nav-item @click="addArticle">Add Article</b-nav-item>
+      </b-nav>
+
+      <b-nav is-nav-bar>
+        <b-nav-item @click="logOut">Log Out</b-nav-item>
       </b-nav>
 
     </b-navbar>
@@ -20,6 +24,15 @@ export default{
   data() {
     return {
 
+    }
+  },
+  methods:{
+    logOut:function(){
+      window.localStorage.removeItem('token')
+      window.location.replace("/")
+    },
+    addArticle:function(){
+      window.location.replace("/#/add-article")
     }
   }
 }

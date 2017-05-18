@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <SideBar></SideBar>
+    </br>
     <MainContent></MainContent>
   </div>
 </template>
@@ -10,6 +10,7 @@
 import NavBar from './NavBar'
 import MainContent from './MainContent'
 import SideBar from './SideBar'
+import { mapGetters } from 'vuex'
 
 export default{
   data() {
@@ -19,6 +20,9 @@ export default{
   },
   methods: {
 
+  },
+  mounted() {
+    this.$store.dispatch('LOAD_ARTICLES_LIST')
   },
   components:{
     MainContent, SideBar, NavBar
